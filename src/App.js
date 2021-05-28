@@ -1,9 +1,11 @@
 import Header from './components/Header'
 import Tasks from './components/Tasks'
 import AddTask from './components/AddTask'
-import Footer from './components/Footer'
 import {useState} from 'react'
 import {useEffect} from 'react'   // Deals with side-effects, Component needs to do something AFTER rendering
+import {BrowserRouter, Route, Switch} from 'react-router-dom'
+import AuthPage from './components/AuthPage/AuthPage'
+import useToken from './components/AuthPage/useToken'
 
 // Components can be Functions (with hooks) or Classes
 function App() {
@@ -137,30 +139,50 @@ function App() {
 
      Pass in addTask function as Prop, to AddTask.js
    */
-  return (
-    <div className = 'container'>
 
-        <Header
-            buttonColorDecider = {showAddButton}
-            toggleAdd = { () => setshowAddButton(!showAddButton) }/>      {/* Button is in <Header>, so we must pass down the State Hook function as a Prop. We also define the State Hook function here */}
-        {showAddButton ? <AddTask onAdd = {onAdd}/> : ''}                 {/* Event Handlers must be function or function reference, for setshowAddButton*/}
-        {
-           tasks.length !== 0 ?
-               (
-                   <Tasks
-                       tasks = {tasks}         /* Passing in tasks as Prop */
-                       onDelete = {deleteTask} /* Passing in deleteTask (FUNCTION) as Prop, into variable onDelete */
-                       toggleReminder = {toggleReminder}
-                   />
-               )
-               :
-               'No Tasks Today!'
-        }
+    // token = stateful value
+    // setToken = function
+    const {token, setToken} = useToken()
 
-        <Footer />
+    if (!token)
+        // Passes prop function to AuthPage.js
+        // Authpage.js will capture form data, trigger State function hook, causing Stateful Value to be updated
+        return <AuthPage setauthToken = {setToken} />
 
-    </div>
-  );
+    return (
+        <BrowserRouter>
+            <Switch>
+
+                <Route path="/Auth" exact>
+                    <AuthPage/>
+                </Route>
+
+                <Route path="/Homepage">
+                    <div className='container'>
+                        <Header
+                            buttonColorDecider={showAddButton}
+                            toggleAdd={() => setshowAddButton(!showAddButton)}/> {/* Button is in <Header>, so we must pass down the State Hook function as a Prop. We also define the State Hook function here */}
+                        {showAddButton ? <AddTask
+                            onAdd={onAdd}/> : ''} {/* Event Handlers must be function or function reference, for setshowAddButton*/}
+                        {
+                            tasks.length !== 0 ?
+                                (
+                                    <Tasks
+                                        tasks={tasks}         /* Passing in tasks as Prop */
+                                        onDelete={deleteTask} /* Passing in deleteTask (FUNCTION) as Prop, into variable onDelete */
+                                        toggleReminder={toggleReminder}
+                                    />
+                                )
+                                :
+                                'No Tasks Today!'
+                        }
+
+                    </div>
+                </Route>
+
+            </Switch>
+        </BrowserRouter>
+    );
 }
 
 export default App;

@@ -1,4 +1,3 @@
-
 import {FaTimes} from 'react-icons/fa'  // Importing Icons from installed React Icons Library. Restart npm server after installing!
 
 // Destructuring task, that was passed in as Prop from Tasks.js
