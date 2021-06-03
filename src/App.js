@@ -4,38 +4,34 @@ import AddTask from './components/AddTask'
 import {useEffect, useState} from 'react' // Deals with side-effects, Component needs to do something AFTER rendering
 import Authentication from './components/Authentication'
 import Axios from "axios"
-import useAxios from 'axios-hooks'
 
 // App (Global) State.
 // Not best practice, will use Redux to keep track of JS States in future
 // Components can be Functions (with hooks) or Classes
 function App() {
-    const [tasks, setTasks] = useState( [])
+
+    const fetchTasks = () => {
+        //console.log("Fetching")
+        Axios({
+            method : "GET",
+            withCredentials : true,
+            url : 'http://localhost:4000/tasks'
+        }).then( (res) => {
+            //console.log("Setting")
+            setTasks(res.data.task)
+        })
+    }
+
+    const [tasks, setTasks] = useState( () => () => fetchTasks())    // useState function, unlike useState value
     const [showAddButton, setshowAddButton] = useState(false)
     const [isAuth, setisAuth] = useState(false)
 
     useEffect(() => {
-            const getTasks = async () => {
-                const TasksFromServer = await (fetchTasks())
-                setTasks(TasksFromServer)
-            }
-            getTasks()
+        console.log("useEffect triggered")
+        console.log("Auth is " , isAuth)
+            fetchTasks()
         }, [isAuth]
     )
-
-    // fetchTasks (from Server) function, declared outside so that we can reuse it in other places
-    const fetchTasks = async() => {
-        /*Axios({
-            method : "GET",
-            withCredentials : true,
-            url :"http://localhost:4000/tasks"
-        }).then((res) => {
-            console.log("Hi")
-            console.log(res.data)
-        })*/
-        const response = await Axios.get('http://localhost:4000/tasks')
-        return response
-    }
 
     const onAdd = (TaskAdded) => {
         Axios({
@@ -44,7 +40,7 @@ function App() {
             withCredentials : true,
             url: "http://localhost:4000/tasks",
         }).then((res) => {
-            setTasks([...tasks, TaskAdded])
+            fetchTasks()
         })
     }
 
@@ -55,7 +51,8 @@ function App() {
             withCredentials : true,
             url : "http://localhost:4000/tasks",
         }).then((res) => {
-            // Update UI
+            //console.log(res.data.task)
+            fetchTasks()
         })
     }
 
@@ -83,7 +80,7 @@ function App() {
                                  Pass in addTask function as Prop, to AddTask.js
                                */
                               <Tasks
-                                  tasks={tasks}         /* Passing in tasks as Prop */
+                                  tasks={tasks}         /* Passing in tasks Array as Prop */
                                   onDelete={deleteTask} /* Passing in deleteTask (FUNCTION) as Prop, into variable onDelete */
                               />
                           )

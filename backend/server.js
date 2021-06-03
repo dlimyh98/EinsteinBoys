@@ -94,12 +94,13 @@ app.get("/user", async (req,res, next) => {
 })
 
 app.get("/tasks", async (req,res) => {
-    console.log("Hoo")
-    console.log(req)
-    await User.findOne( {_id : req.user.id}, (err,doc) => {
-        //console.log(doc)
-        res.send(doc)
-    })
+    if (req.user) {
+        User.findOne({_id: req.user.id}, async (err, doc) => {
+            if (err) throw err;
+            //await res.send(doc.task)
+            await res.send(doc)
+        })
+    }
 })
 
 // Route to ADD tasks
@@ -114,9 +115,16 @@ app.post("/tasks", (req,res) => {
 
 // Route to DELETE task
 app.delete("/tasks", (req, res) => {
-    User.findByIdAndUpdate(req.user.id, {$pull: {"task": {text: req.body.text, day : req.body.day}}}, {safe: true, upsert: true},
-        function (err, node) {
-        if (err) throw err
+    User.findByIdAndUpdate(req.user.id, {$pull: {"task": {text: req.body.text, day: req.body.day}}}, {
+            safe: true,
+            upsert: true
+        },
+        function (err, doc) {
+            if (err) throw err
+            else {
+                console.log("Task Deleted")
+                res.send(doc)
+            }
         })
 })
 

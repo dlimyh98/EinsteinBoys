@@ -89,8 +89,8 @@ function Authentication( {setisAuth} ) {
             </div>
 
             <div>
-                <h1>Get User</h1>
-                <button onClick={getUser}>Submit</button>
+                <h1>Enter App</h1>
+                <button onClick={getUser}>Click Me!</button>
                 {data ? <h1>Welcome Back {data.username}</h1> : null}
             </div>
         </div>
