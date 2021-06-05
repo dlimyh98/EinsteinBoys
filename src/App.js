@@ -25,10 +25,11 @@ function App() {
     const [tasks, setTasks] = useState( () => () => fetchTasks())    // useState function, unlike useState value
     const [showAddButton, setshowAddButton] = useState(false)
     const [isAuth, setisAuth] = useState(false)
+    const [isPriority, setisPriority] = useState(false)
 
     useEffect(() => {
-        console.log("useEffect triggered")
-        console.log("Auth is " , isAuth)
+        //console.log("useEffect triggered")
+        //console.log("Auth is " , isAuth)
             fetchTasks()
         }, [isAuth]
     )
@@ -64,6 +65,7 @@ function App() {
 
           {isAuth &&
               <div className='container'>
+
                   <Header
                       buttonColorDecider={showAddButton}
                       toggleAdd={() => setshowAddButton(!showAddButton)}
@@ -71,17 +73,22 @@ function App() {
 
                   {showAddButton ? <AddTask
                       onAdd={onAdd}/> : ''} {/* Event Handlers must be function or function reference, for setshowAddButton*/}
+
+                  <label> togglePriority </label>
+                  <input type = "checkbox"
+                         name = "togglePriority"
+                         value = {isPriority}
+                         checked = {isPriority}
+                         onChange = { (e) => setisPriority(e.currentTarget.checked) }
+                      />
+
                   {
                       tasks.length !== 0 ?
                           (
-                              /* Pass in deleteTask function as Prop, to Tasks.js
-                                 - Tasks.js contains Task.js
-                                 - Task.js contains the button itself, that is the trigger point for deletion
-                                 Pass in addTask function as Prop, to AddTask.js
-                               */
                               <Tasks
-                                  tasks={tasks}         /* Passing in tasks Array as Prop */
-                                  onDelete={deleteTask} /* Passing in deleteTask (FUNCTION) as Prop, into variable onDelete */
+                                  tasks={tasks}                  // Passing in tasks Array as Prop
+                                  onDelete={deleteTask}          // Passing in deleteTask (FUNCTION) as Prop
+                                  togglePriority = {isPriority}  // Toggle whether order by Priority or not
                               />
                           )
                           :

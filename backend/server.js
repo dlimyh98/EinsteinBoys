@@ -93,11 +93,12 @@ app.get("/user", async (req,res, next) => {
     await res.send(req.user)
 })
 
+
+// Route to FETCH tasks
 app.get("/tasks", async (req,res) => {
     if (req.user) {
         User.findOne({_id: req.user.id}, async (err, doc) => {
             if (err) throw err;
-            //await res.send(doc.task)
             await res.send(doc)
         })
     }

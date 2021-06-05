@@ -7,8 +7,10 @@ const user = new mongoose.Schema({
     password : { type : String, default : 'BLANK' },
     task : [{
         text : { type : String, default : 'BLANK'},
-        day : { type : String, default : 'BLANK'},
-        reminder : { type : Boolean, default : false}
+        day : { type : String, default : 'BLANK'},       // JS String  (for displaying)
+        isoDay : {type : String, default : 'BLANK'},     // ISO String (for queries).
+        reminder : { type : Boolean, default : false},
+        priority : {type : Number, default : "0"}
     }]
 });
 
