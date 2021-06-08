@@ -83,7 +83,7 @@ const AddText = function( {onAdd} )
                         checked = {priority === 3}
                         onChange = {handleOptionChange}
                     />
-                    High
+                    High Priority Task
                 </label>
                 <label>
                     <input
@@ -92,7 +92,7 @@ const AddText = function( {onAdd} )
                         checked = {priority === 2}
                         onChange = {handleOptionChange}
                     />
-                    Medium
+                    Medium Priority Task
                 </label>
                 <label>
                     <input
@@ -101,7 +101,7 @@ const AddText = function( {onAdd} )
                         checked = {priority === 1}
                         onChange = {handleOptionChange}
                     />
-                    Low
+                    Low Priority Task
                 </label>
                 <label>
                     <input
@@ -110,7 +110,7 @@ const AddText = function( {onAdd} )
                         checked = {priority === 0}
                         onChange = {handleOptionChange}
                     />
-                    None
+                    Event
                 </label>
             </div>
 

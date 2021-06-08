@@ -3,7 +3,9 @@ import moment from 'moment'
 
 const Tasks = function ({tasks, onDelete, togglePriority}) {
 
-    if (togglePriority) {
+    // Passing in State Variable as prop, and we are mutating it here.
+    // Hence changes here WILL reflect upwards to parent (App.js)
+   if (togglePriority) {
         tasks.sort((a, b) => {
             if (a.priority > b.priority) return -1
             else { return 0 }

@@ -4,6 +4,7 @@ import AddTask from './components/AddTask'
 import {useEffect, useState} from 'react' // Deals with side-effects, Component needs to do something AFTER rendering
 import Authentication from './components/Authentication'
 import Axios from "axios"
+import Calendar from './components/Calendar'
 
 // App (Global) State.
 // Not best practice, will use Redux to keep track of JS States in future
@@ -11,13 +12,11 @@ import Axios from "axios"
 function App() {
 
     const fetchTasks = () => {
-        //console.log("Fetching")
         Axios({
             method : "GET",
             withCredentials : true,
             url : 'http://localhost:4000/tasks'
         }).then( (res) => {
-            //console.log("Setting")
             setTasks(res.data.task)
         })
     }
@@ -28,8 +27,6 @@ function App() {
     const [isPriority, setisPriority] = useState(false)
 
     useEffect(() => {
-        //console.log("useEffect triggered")
-        //console.log("Auth is " , isAuth)
             fetchTasks()
         }, [isAuth]
     )
@@ -61,7 +58,10 @@ function App() {
   // Can only return one single Parent Element
   return (
       <>
+
           {!isAuth && <Authentication setisAuth = {setisAuth} />}
+
+          {isAuth && <Calendar tasks = {tasks} isPriority = {isPriority} />}
 
           {isAuth &&
               <div className='container'>
