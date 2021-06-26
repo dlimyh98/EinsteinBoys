@@ -61,39 +61,43 @@ function Authentication( {setisAuth} ) {
 
     // Login / Registration Form
     return (
-        <div className="App">
-            <div>
-                <h1>Register</h1>
-                <input
-                    placeholder="username"
-                    onChange={(e) => setRegisterUsername(e.target.value)}
-                />
-                <input
-                    placeholder="password"
-                    onChange={(e) => setRegisterPassword(e.target.value)}
-                />
-                <button onClick={register}>Submit</button>
-            </div>
-
-            <div>
-                <h1>Login</h1>
-                <input
-                    placeholder="username"
-                    onChange={(e) => setLoginUsername(e.target.value)}
-                />
-                <input
-                    placeholder="password"
-                    onChange={(e) => setLoginPassword(e.target.value)}
-                />
-                <button onClick={login}>Submit</button>
-            </div>
-
-            <div>
-                <h1>Enter App</h1>
-                <button onClick={getUser}>Click Me!</button>
-                {data ? <h1>Welcome Back {data.username}</h1> : null}
-            </div>
-        </div>
+      <div className="App">
+          <div className="start">
+              <h1>Task Monster</h1>
+          </div>
+          <div className="reg">
+              <h2>Register</h2>
+              <input
+                  placeholder="Username"
+                  onChange={(e) => setRegisterUsername(e.target.value)}
+              />
+              <br/>
+              <input
+                  placeholder="Password"
+                  onChange={(e) => setRegisterPassword(e.target.value)}
+              />
+              <br/>
+              <button onClick={register}>Submit</button>
+          </div>
+          <div className="login">
+              <h2>Login</h2>
+              <input
+                  placeholder="Username"
+                  onChange={(e) => setLoginUsername(e.target.value)}
+              />
+              <br/>
+              <input
+                  placeholder="Password"
+                  onChange={(e) => setLoginPassword(e.target.value)}
+              />
+              <br/>
+              <button onClick={login}>Submit</button>
+          </div>
+          <div className="enterApp">
+              <button onClick={getUser}>Enter app</button>
+              {data ? <h1>Welcome Back {data.username}</h1> : null}
+          </div>
+      </div>
     );
 }
 

@@ -1,38 +1,50 @@
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap");
+
+.start {
+  color: #f1356d;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  max-width: 1000px;
+  margin: 0 auto;
+  border-bottom: 3px solid #f2f2f2;
+}
+
+.App h2 {
+    color: #f1356d;
+    margin-bottom: 20px;
+}
+
+.reg, .login {
+    margin-top:20px;
+    margin-bottom: 10px;
+}
+
+.reg input, .reg button, .login input, .login button {
+    margin-bottom: 3px;
+}
+
+.App button {
+    background: #f1356d;
+    color: #fff;
+    border: 0;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.enterApp button {
+    margin-top:40px;
+    background: #ffffff;
+    color: #f1356d;
+    border: 3px solid #f1356d;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
 .App {
+    padding: 0px 20px 100px 20px;
     text-align: center;
-}
-
-.App-logo {
-    height: 40vmin;
-    pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-        animation: App-logo-spin infinite 20s linear;
-    }
-}
-
-.App-header {
-    background-color: #282c34;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
-}
-
-.App-link {
-    color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
+    font-family: "Quicksand";
 }
