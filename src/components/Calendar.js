@@ -13,17 +13,23 @@ import subMonths from "date-fns/subMonths"
 import toDate from 'date-fns/toDate'
 import parseISO from 'date-fns/parseISO'            // parse ISO to Date
 import formatISO9075 from 'date-fns/formatISO9075'
-import moment from "moment";  // Date to ISO 9075 format (with options)
 
-const Calendar = ({tasks, isPriority}) => {
+const Calendar = ({tasks, isPriority, isTime, textFilter, datetimeFilter, viewingOptions}) => {
+
+    const[passedTasks, setPassedTasks] = useState(tasks)
+
+    useEffect(() => {
+            if (tasks && tasks.length > 0)
+                setPassedTasks([...tasks])
+
+            else if (tasks.length >= 0)
+                setPassedTasks([])
+        }, [tasks, isPriority, isTime]
+    )
+
     // Default State is current Day
     const [currentDate, setCurrentDate] = useState(new Date());     // for Calendar to render proper month
     const [selectedDate, setSelectedDate] = useState(new Date());   // styling for selected Date
-    const [isActive, setActive] = useState(false);
-
-    const toggleClass = () => {
-        setActive(!isActive)
-    }
 
     // Add 1 to current Month
     const nextMonth = () => { setCurrentDate(addMonths(currentDate, 1)); };
@@ -35,7 +41,7 @@ const Calendar = ({tasks, isPriority}) => {
     const header = () => {
         const dateFormat = "MMMM yyyy";
         return (
-            <div className="header row flex-middle">
+            <div className="header row flex-middle centerDay">
 
                 <div className="column col-start">
                     <div className="icon" onClick={prevMonth}>
@@ -57,7 +63,6 @@ const Calendar = ({tasks, isPriority}) => {
         );
     };
 
-
     // sets how (Monday-Sunday) is displayed just below Header
     const days = () => {
         const dateFormat = "E";
@@ -67,7 +72,7 @@ const Calendar = ({tasks, isPriority}) => {
         // For each iteration, push a <div> into days Array
         for (let i = 1; i < 8; i++) {   // Mon-Sunday (1-8)
             days.push(
-                <div className="column col-center" key={i}>
+                <div className="column col-center centerDay" key={i}>
                     {format(addDays(startDate, i), dateFormat)}
                 </div>
             );
@@ -79,11 +84,19 @@ const Calendar = ({tasks, isPriority}) => {
         setSelectedDate(day);
     }
 
+    function handleviewingOptions (task) {
+        switch(viewingOptions) {
+            case '0' : return (task.priority !== 0)    // only view Tasks (viewingOptions === 0)
+            case '1' : return (task.priority === 0)    // only view Events (viewingOptions === 1)
+            default : return true                    // view both Tasks and Events
+        }
+    }
+
     // sets how EACH cell is populated
-    const cells = () => {
-        const monthStart = startOfMonth(currentDate);    // when does month start
-        const monthEnd = endOfMonth(monthStart);         // when does month end
-        const startDate = startOfWeek(monthStart);       // gets first day of CURRENT month, for our calendar to display on that month
+    const cells = (passedTasks) => {
+        const monthStart = startOfMonth(currentDate);    // when does month start (Day)
+        const monthEnd = endOfMonth(monthStart);         // when does month end (Day)
+        const startDate = addDays(startOfWeek(monthStart),1);       //  when does THAT WEEK start for the month start DAY. Offset by 1 because Mon-Sun
         const endDate = endOfWeek(monthEnd);             // final date of the CURRENT month, use as a check against
         const dateFormat = "d";                          // render correct date in each cell
         const rows = [];                                 // render all weeks of given month
@@ -91,55 +104,47 @@ const Calendar = ({tasks, isPriority}) => {
         let day = startDate;                             // points to start date of CURRENT month
         let formattedDate = "";
 
-        // Not the best implementation, but I can't think of any other way to deal with the asynchronous nature of tasks.sort in Tasks.js
-        if (isPriority) {
-            tasks.sort((a, b) => {
-                if (a.priority > b.priority) return -1
-                else { return 0 }
-            })
-        }
-
-        else {
-            tasks.sort((a,b) => {
-                if ( (moment(a.isoDay).unix()) < (moment(b.isoDay).unix()) ) return -1
-                else {return 0}
-            })
-        }
-
         // Determines color of Tasks in storageArray (according to Priority)
-        function TaskToCalendarColoring (tasks,traversal) {
-            if (tasks[traversal]) {
-                switch (tasks[traversal].priority) {
-                    case 3 : return "Red"
-                    case 2 : return "Yellow"
-                    case 1 : return "Green"
-                    case 0 : return "Black"
-                    default : return "Blue"
+        function TaskToCalendarColoring(passedTasks, traversal) {
+            if (passedTasks) {    // prevent Memory Leak
+                if (passedTasks[traversal].priority !== 0) {
+                    switch (passedTasks[traversal].priority) {
+                        case 3 : return "IndianRed"
+                        case 2 : return "Khaki"
+                        case 1 : return "SpringGreen"
+                        default : return "Blue"   // Shouldn't happen
+                    }
+                }
+
+                else {
+                    return passedTasks[traversal].eventColor
                 }
             }
         }
 
         let traversal = 0;  // Initializing to zero ONCE
-
         // Extract Tasks from database to Array
-        function TaskToCalendar(tasks, traversal, day) {
-
+        function TaskToCalendar(passedTasks, traversal, day) {
             let tmp = [];
-            while (tasks[traversal]) {
-                if (isSameDay(parseISO(tasks[traversal].isoDay), day)) {
-                    tmp.push(
-                        <div key={parseISO(tasks[traversal].isoDay) + tasks[traversal].text}>
-                        <span
-                            //onClick = { () => 'activeDate'}
+            while (passedTasks && passedTasks[traversal]) {
+                if (isSameDay(parseISO(passedTasks[traversal].isoDay), day)) {
+                    tmp.push(passedTasks[traversal].text.includes(textFilter)
+                    && (isSameDay(parseISO(datetimeFilter), parseISO(passedTasks[traversal].isoDay)) || datetimeFilter === '')
+                    && handleviewingOptions(passedTasks[traversal])
+                        ?
+                        <div
+                            key={parseISO(passedTasks[traversal].isoDay) + passedTasks[traversal].text}
                         >
-                            {tasks[traversal].text}
+                            <span> {passedTasks[traversal].text} </span>
+                            <span style={{color: TaskToCalendarColoring(passedTasks, traversal)}}>
+                                {passedTasks[traversal].priority === 0 ?
+                                    formatISO9075(parseISO(passedTasks[traversal].isoDay), {representation: 'time'}).slice(0, -3)
+                                    + "-" + formatISO9075(parseISO(passedTasks[traversal].isoEventEndTime), {representation: 'time'}).slice(0, -3)
+                                    : formatISO9075(parseISO(passedTasks[traversal].isoDay), {representation: 'time'}).slice(0, -3)}
                         </span>
-                            <span style={{color: TaskToCalendarColoring(tasks, traversal)}}>
-                            {formatISO9075(parseISO(tasks[traversal].isoDay), {representation: 'time'}).slice(0, -3)}
-                        </span>
-                        </div>)
+                        </div>
+                        : null)
                 }
-
                 traversal++
             }
             return {storageArray: tmp}
@@ -152,23 +157,23 @@ const Calendar = ({tasks, isPriority}) => {
                 const cloneDay = day;
 
                 // For each DAY, sweep through the tasks array ONCE ENTIRELY
-                const {storageArray} = TaskToCalendar(tasks, traversal, day)
+                const {storageArray} = TaskToCalendar(passedTasks, traversal, day)
+
                 traversal = 0   // RESET the modified traversal value
 
                 days.push(
                     <div
-                        className={`column cell ${!isSameMonth(day, monthStart)    // Checking if each cell actually belongs to the current Month
-                            ? "disabled" :
-                            isSameDay(day, currentDate) ? "flashy" :
-                                isSameDay(day, selectedDate) ? "selected" : ""}`}  // Checking if particular cell is same date as currentDate
+                        className={`column cell ${!isSameMonth(day, monthStart) ? "disabled"      // Days not in current Month are greyed out
+                            : isSameDay(day, selectedDate) ? "currentDate": ""}`}                 // currentDate and selectedDate overwrite
                         key={day}
-                        onClick={() => onDateClick(toDate(cloneDay))}              // sets currentDate hook to whatever cell is being clicked on
+                        onClick = {() => onDateClick(toDate(cloneDay))}   // sets currentDate hook to whatever cell is being clicked on
                     >
-                        <span className="number">{formattedDate}</span>
-                        <span className="bg">{formattedDate}</span>
+                        <span className="number"> {formattedDate} </span>
+                        <span className="bg"> {formattedDate} </span>
                         {storageArray}
                     </div>
                 );
+
                 day = addDays(day, 1);     // Increment to next day
             }
 
@@ -189,7 +194,7 @@ const Calendar = ({tasks, isPriority}) => {
         <div className="calendar">
             <div>{header()}</div>
             <div>{days()}</div>
-            <div>{cells()}</div>
+            <div>{cells(passedTasks)}</div>
         </div>
     );
 };

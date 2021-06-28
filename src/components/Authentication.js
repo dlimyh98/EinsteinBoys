@@ -19,8 +19,6 @@ function Authentication( {setisAuth} ) {
     const [registerPassword, setRegisterPassword] = useState("");
     const [loginUsername, setLoginUsername] = useState("");
     const [loginPassword, setLoginPassword] = useState("");
-    // Takes the data that I am getting from server, and save it in State. So that I can use it later in my application
-    const [data, setData] = useState(null);
 
     const register = () => {
         Axios({
@@ -31,7 +29,9 @@ function Authentication( {setisAuth} ) {
             },
             withCredentials: true,
             url: "http://localhost:4000/register",                 // POST TO this route (location of Backend login route)
-        }).then((res) => console.log(res));
+        }).then((res) => {
+            alert(res.data)
+        });
     };
 
     const login = () => {
@@ -43,7 +43,13 @@ function Authentication( {setisAuth} ) {
             },
             withCredentials: true,
             url: "http://localhost:4000/login",
-        }).then((res) => console.log(res));
+        }).then((res) => {
+            if (res.data === 'Invalid Username/Password')
+                alert(res.data)
+
+            else
+                getUser()
+        });
     };
 
     // Gets information from localhost:4000/user (BACKEND)
@@ -54,50 +60,46 @@ function Authentication( {setisAuth} ) {
             withCredentials: true,
             url: "http://localhost:4000/user",
         }).then((res) => {     // RESPONSE contains user object
-            setData(res.data);                    // access Axios RESPONSE object's data field (payload returned from server)
             setisAuth(res.data)
         });
     };
 
     // Login / Registration Form
     return (
-      <div className="App">
-          <div className="start">
-              <h1>Task Monster</h1>
-          </div>
-          <div className="reg">
-              <h2>Register</h2>
-              <input
-                  placeholder="Username"
-                  onChange={(e) => setRegisterUsername(e.target.value)}
-              />
-              <br/>
-              <input
-                  placeholder="Password"
-                  onChange={(e) => setRegisterPassword(e.target.value)}
-              />
-              <br/>
-              <button onClick={register}>Submit</button>
-          </div>
-          <div className="login">
-              <h2>Login</h2>
-              <input
-                  placeholder="Username"
-                  onChange={(e) => setLoginUsername(e.target.value)}
-              />
-              <br/>
-              <input
-                  placeholder="Password"
-                  onChange={(e) => setLoginPassword(e.target.value)}
-              />
-              <br/>
-              <button onClick={login}>Submit</button>
-          </div>
-          <div className="enterApp">
-              <button onClick={getUser}>Enter app</button>
-              {data ? <h1>Welcome Back {data.username}</h1> : null}
-          </div>
-      </div>
+        <div className="App">
+
+            <div className = "start">
+                <h1> Calis</h1>
+            </div>
+
+            <div className = 'reg'>
+                <h2>Register</h2>
+                <input
+                    placeholder="username"
+                    onChange={(e) => setRegisterUsername(e.target.value)}
+                />
+                <input
+                    type = 'password'
+                    placeholder="password"
+                    onChange={(e) => setRegisterPassword(e.target.value)}
+                />
+                <button onClick={register}>Register!</button>
+            </div>
+
+            <div className = 'login'>
+                <h2>Login</h2>
+                <input
+                    placeholder="username"
+                    onChange={(e) => setLoginUsername(e.target.value)}
+                />
+                <input
+                    type = 'password'
+                    placeholder="password"
+                    onChange={(e) => setLoginPassword(e.target.value)}
+                />
+                <button onClick={login}>Log in!</button>
+            </div>
+        </div>
     );
 }
 

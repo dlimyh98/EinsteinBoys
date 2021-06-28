@@ -7,10 +7,12 @@ const user = new mongoose.Schema({
     password : { type : String, default : 'BLANK' },
     task : [{
         text : { type : String, default : 'BLANK'},
-        day : { type : String, default : 'BLANK'},       // JS String  (for displaying)
-        isoDay : {type : String, default : 'BLANK'},     // ISO String (for queries).
+        day : { type : String, default : 'BLANK'},             // JS String  (for displaying)
+        isoDay : {type : String, default : 'BLANK'},           // ISO String (for queries).
         reminder : { type : Boolean, default : false},
-        priority : {type : Number, default : "0"}
+        priority : {type : Number, default : "0"},
+        eventColor : {type : String, default : "#000000"},     // only has meaningful value for Events
+        isoEventEndTime : {type : String, default : 'BLANK'}   // only applicable for Events (to display time range)
     }]
 });
 

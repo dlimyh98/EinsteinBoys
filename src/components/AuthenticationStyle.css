@@ -1,13 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap");
 
 .start {
-  color: #f1356d;
-  padding: 15px;
-  display: flex;
-  align-items: center;
-  max-width: 1000px;
-  margin: 0 auto;
-  border-bottom: 3px solid #f2f2f2;
+    color: #6699ff;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    max-width: 1000px;
+    margin: 0 auto;
+    border-bottom: 3px solid #f2f2f2;
 }
 
 .App h2 {
@@ -46,5 +46,5 @@
 .App {
     padding: 0px 20px 100px 20px;
     text-align: center;
-    font-family: "Quicksand";
+    font-family: "Quicksand", serif;
 }

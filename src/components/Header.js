@@ -5,10 +5,10 @@ const Header = function( {buttonColorDecider, toggleAdd} )
 {
     return (
         <header className = 'header'>
-            <h1> Task Tracker </h1>
+            <h1> CalisTracker </h1>
             <Button
                 color = { buttonColorDecider ? 'red' : 'green' }
-                text = { buttonColorDecider ? 'Done adding Tasks' : 'Start adding Tasks' }
+                text = { buttonColorDecider ? 'Done Adding' : 'Start Adding' }
                 onClickFunction = {toggleAdd}      // Pass down toggleAdd function to Button.js as a Prop
             />
         </header>

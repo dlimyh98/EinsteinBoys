@@ -43,6 +43,8 @@ header {
     flex-wrap: wrap;
     width: 100%;
 }
+
+
 .row-middle {
     align-items: center;
 }
@@ -73,6 +75,10 @@ header {
     transition: .15s ease-out;
 }
 
+.centerDay {
+    text-align : center
+}
+
 .calendar .header .icon:hover {
     transform: scale(1.75);
     transition: .25s ease-out;
@@ -87,6 +93,7 @@ header {
 }
 
 .calendar .days {
+    display : flex;
     text-transform: uppercase;
     font-weight: 400;
     color: gray;
@@ -95,16 +102,13 @@ header {
     border-bottom: 1px solid lightgray;
 }
 
-.calendar .body .row .flashy {
+/* Highlights the border of CURRENT date */
+.calendar .body .row .currentDate {
     border-color : red;
 }
 
-.calendar .body .row  .flashy{
-    color : red;
-}
-
-.calendar .body .row .active{
-    color : purple;
+.calendar .body .row .selected {
+    border-color : red;
 }
 
 .calendar .body .cell {
@@ -135,8 +139,9 @@ header {
 .calendar .body .row:last-child {
     border-bottom: none;
 }
+
 .calendar .body .cell:last-child {
-    border-right: none;
+    /*border-right: none;*/
 }
 .calendar .body .cell .number {
     position: absolute;
@@ -146,6 +151,7 @@ header {
     right: .75em;
     font-weight: 700;
 }
+
 
 /*.calendar .body .cell .disabled {
     color : red

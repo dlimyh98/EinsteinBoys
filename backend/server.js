@@ -57,12 +57,12 @@ app.post("/login", (req,res,next) => {
     passport.authenticate("local", (error,user,info) => {    // "local" string will run the Local Strategy we defined in passportConfig.js
         // By placing passport.authenticate inside Route, we have access to HTTP req and res! Which we can pass to passport strategy
         if (error) throw error;
-        if (!user) res.send("No user exists")
+        if (!user) res.send("Invalid Username/Password")
         else {
             // Attempt to establish a Login session, if User EXISTS (but hasn't been AUTHENTICATED yet!)
             req.logIn(user, (error) => {
                 if (error) throw error
-                res.send('Successfuly Authenticated');
+                res.send('Successfuly Authenticated!');
             })
         }
     })
@@ -74,7 +74,7 @@ app.post("/login", (req,res,next) => {
 app.post("/register", (req, res, next) => {
     User.findOne({ username: req.body.username }, async (err, doc) => {
         if (err) throw err;
-        if (doc) res.send("User Already Exists");
+        if (doc) res.send("Username Already Taken");
         if (!doc) {
             const hashedPassword = await bcrypt.hash(req.body.password, 10);   // MUST await, because hashing takes time
             const newUser = new User({
@@ -82,7 +82,7 @@ app.post("/register", (req, res, next) => {
                 password: hashedPassword,
             });
             await newUser.save();
-            res.send("User Created");
+            res.send("User Registered!");
         }
     });
 });
@@ -104,7 +104,7 @@ app.get("/tasks", async (req,res) => {
     }
 })
 
-// Route to ADD tasks
+// Route to ADD tasks (POST)
 app.post("/tasks", (req,res) => {
     User.findOne( {_id : req.user.id}, async(err,doc) => {    // Search by current person logged in
         if (err) throw err;
@@ -124,6 +124,21 @@ app.delete("/tasks", (req, res) => {
             if (err) throw err
             else {
                 console.log("Task Deleted")
+                res.send(doc)
+            }
+        })
+})
+
+// Route to UPDATE task (PUT)
+app.put("/tasks", (req, res) => {
+    User.updateOne({_id: req.user.id}, {$set: {task: req.body}}, {
+            safe: true,
+            upsert: true
+        },
+        function (err, doc) {
+            if (err) throw err
+            else {
+                console.log("Task Updated")
                 res.send(doc)
             }
         })
