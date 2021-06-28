@@ -11,7 +11,7 @@
 
 4. 'npm run start' in the root folder
 
-4. Navigate to the backend folder
+4. Navigate to the backend folder (in another Terminal window)
    (.../Damien/Downloads/EinsteinBoys/backend)
 
 5. 'node server.js' in the backend folder
