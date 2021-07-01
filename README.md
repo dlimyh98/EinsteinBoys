@@ -10,20 +10,16 @@
 3. 'npm install' in the root folder
 
 4. 'npm run start' in the root folder
-4.1 The following message should appear in your terminal
-    - react-scripts start
-4.2 The app should be deployed on localhost:3000, **note that it is
-on port 3000!**
+    - 'react-scripts start' will be outputted on your console
+    - The app will be deployed on localhost:3000, **note that it is
+      on port 3000!**
 
-
-4. Navigate to the backend folder (in another Terminal window)
+5. Navigate to the backend folder (in another Terminal window)
    (.../Damien/Downloads/EinsteinBoys/backend)
 
-5. 'node server.js' in the backend folder
-5.1 The following message should appear in your terminal
-    - Server running on 4000
-    - Mongoose is connected
-
+6. 'node server.js' in the backend folder
+    - 'Server running on 4000' will be ouputted on your console
+    - 'Mongoose is connected' will be outputted on your console
 
 ## Troubleshooting tips for errors
 1. Ensure that node.js is installed
@@ -36,4 +32,3 @@ on port 3000!**
 
 4. Ensure that port 3000 and port 4000 are available for use
    - the app is deployed on **localhost:3000**, NOT **localhost:4000**
-
