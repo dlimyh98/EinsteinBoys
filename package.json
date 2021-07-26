@@ -32,12 +32,10 @@
     "web-vitals": "^1.1.2"
   },
   "scripts": {
-    "frontend": "npm start",
-    "api": "cd backend && node server.js",
-    "dev": "concurrently --kill-others-on-fail \"npm run api\" \"npm run frontend\"",
+    "start": "react-scripts start & cd backend && node server.js && cd ..",
     "heroku-postbuild": "npm run build",
     "build" : "react-scripts build",
-    "test": "react-scripts test",
+   "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
