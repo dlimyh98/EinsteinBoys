@@ -19,7 +19,7 @@ function App() {
         Axios({
             method : "GET",
             withCredentials : true,
-            url : 'http://localhost:4000/tasks'
+            url : 'https://einsteinboys.herokuapp.com/tasks'
         }).then((res) => {
             setTasks(res.data.task)
             setisLoading(false)
@@ -47,7 +47,7 @@ function App() {
             method : "POST",
             data : TaskAdded,
             withCredentials : true,
-            url: "http://localhost:4000/tasks",
+            url: "https://einsteinboys.herokuapp.com/tasks",
         }).then((res) => {
             fetchTasks()
         })
@@ -58,7 +58,7 @@ function App() {
             method : "DELETE",
             data : TaskDelete,
             withCredentials : true,
-            url : "http://localhost:4000/tasks",
+            url : "https://einsteinboys.herokuapp.com/tasks",
         }).then((res) => {
             //console.log(res.data.task)
             fetchTasks()
@@ -70,7 +70,7 @@ function App() {
             method : "PUT",
             data : newTaskOrdering,
             withCredentials : true,
-            url : "http://localhost:4000/tasks",
+            url : "https://einsteinboys.herokuapp.com/tasks",
         }).then((res) => {
             fetchTasks()
         })

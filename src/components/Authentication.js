@@ -121,7 +121,7 @@ function Authentication( {setisAuth} ) {
                 password: registerPassword,
             },
             withCredentials: true,
-            url: "http://localhost:4000/register",                 // POST TO this route (location of Backend login route)
+            url: "https://einsteinboys.herokuapp.com/register",                 // POST TO this route (location of Backend login route)
         }).then((res) => {
             // Invalid Username, Invalid Password, Username Already Taken, User Registered
             setregisterText(res.data)
@@ -138,7 +138,7 @@ function Authentication( {setisAuth} ) {
                 password: loginPassword,
             },
             withCredentials: true,
-            url: "http://localhost:4000/login",
+            url: "https://einsteinboys.herokuapp.com/login",
         }).then((res) => {
             if (res.data === 'Invalid Username/Password') {
                 setloginText(res.data)
@@ -156,7 +156,7 @@ function Authentication( {setisAuth} ) {
         Axios({
             method: "GET",
             withCredentials: true,
-            url: "http://localhost:4000/user",
+            url: "https://einsteinboys.herokuapp.com/user",
         }).then((res) => {     // RESPONSE contains user object
             setisAuth(res.data)
         });
