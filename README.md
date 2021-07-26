@@ -11,6 +11,9 @@
 
 4. 'npm run start' in the root folder
 
+5. On your browser, localhost:3000 should be automatically deployed.
+   This is where the App will be running on.
+
 
 ## Troubleshooting tips for errors
 1. Ensure that node.js is installed
