@@ -1,6 +1,7 @@
 {
   "name": "tasktracker",
   "homepage": "https://einsteinboys.herokuapp.com",
+  "proxy" : "http://localhost:4000",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
