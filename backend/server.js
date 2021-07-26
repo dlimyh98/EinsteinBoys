@@ -152,6 +152,7 @@ app.put("/tasks", (req, res) => {
 
 // Backend server will using PORT specified below
 const PORT = process.env.PORT || 4000;
+const path = require('path');
 app.listen(PORT, console.log(`Server running on ${PORT}`));
 
 if (process.env.NODE_ENV === 'production') {
@@ -160,7 +161,6 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.resolve('/app','build')));
 
   // Express serve up index.html file if it doesn't recognize route
-  const path = require('path');
   app.get('*', (req, res) => {
     res.sendFile(path.resolve('/app', 'build', 'index.html'));
   });
