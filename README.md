@@ -7,12 +7,9 @@
 2.  Navigate to the root folder of the cloned repository 
     (.../Damien/Downloads/EinsteinBoys)
 
-3. 'npm run start' in the root folder
+3. 'npm install' in the root folder
 
-4. Navigate to the backend folder
-   (.../Damien/Downloads/EinsteinBoys/backend)
-
-5. 'node server.js' in the backend folder
+4. 'npm run start' in the root folder
 
 
 ## Troubleshooting tips for errors
