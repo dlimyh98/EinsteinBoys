@@ -7,28 +7,22 @@
 2.  Navigate to the root folder of the cloned repository 
     (.../Damien/Downloads/EinsteinBoys)
 
-3. 'npm install' in the root folder
+3. 'npm run start' in the root folder
 
-4. 'npm run start' in the root folder
-    - 'react-scripts start' will be outputted on your console
-    - The app will be deployed on localhost:3000, **note that it is
-      on port 3000!**
-
-5. Navigate to the backend folder (in another Terminal window)
+4. Navigate to the backend folder
    (.../Damien/Downloads/EinsteinBoys/backend)
 
-6. 'node server.js' in the backend folder
-    - 'Server running on 4000' will be ouputted on your console
-    - 'Mongoose is connected' will be outputted on your console
+5. 'node server.js' in the backend folder
+
 
 ## Troubleshooting tips for errors
 1. Ensure that node.js is installed
 
 2. Ensure that npm is installed
-   - 'npm audit fix' may help
+   - npm install
+   - npm audit fix
 
 3. Ensure that react scripts are installed
-   - 'npm install react-scripts' may help
+   - npm install react-scripts
 
 4. Ensure that port 3000 and port 4000 are available for use
-   - the app is deployed on **localhost:3000**, NOT **localhost:4000**

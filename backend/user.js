@@ -11,8 +11,9 @@ const user = new mongoose.Schema({
         isoDay : {type : String, default : 'BLANK'},           // ISO String (for queries).
         reminder : { type : Boolean, default : false},
         priority : {type : Number, default : "0"},
-        eventColor : {type : String, default : "#000000"},     // only has meaningful value for Events
-        isoEventEndTime : {type : String, default : 'BLANK'}   // only applicable for Events (to display time range)
+        eventColor : {type : String, default : "#000000"},      // has meaningful value for BOTH Task & Event
+        isoEventEndTime : {type : String, default : 'BLANK'},   // only applicable for Events (to display time range)
+        additionalRemarks : {type : String, default : 'BLANK'}
     }]
 });
 

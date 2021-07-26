@@ -1,14 +1,16 @@
+import './components/Body.css'
 import Header from './components/Header'
-import Tasks from './components/Tasks'
+import TaskView from './components/TaskView'
 import AddTask from './components/AddTask'
 import LoadingScreen from './components/LoadingScreen'
 import {useEffect, useState} from 'react' // Deals with side-effects, Component needs to do something AFTER rendering
-import Authentication from './components/Authentication'
 import Axios from "axios"
 import Calendar from './components/Calendar'
 import moment from 'moment'
+import Authentication from './components/Authentication'
 
-// App (Global) State.
+
+// App (Global) State
 // Not best practice, will use Redux to keep track of JS States in future
 // Components can be Functions (with hooks) or Classes
 function App() {
@@ -117,113 +119,47 @@ function App() {
 
             {isAuth && isLoading
                 ? <LoadingScreen/>
-                :
-                <>
-                    {isAuth && <Calendar
-                        tasks={tasks}
-                        isPriority={isPriority}
-                        isTime={isTime}
-                        textFilter={textFilter}
-                        datetimeFilter={datetimeFilter}
-                        viewingOptions = {viewingOptions}
-                    />}
-
+                : <>
                     {isAuth &&
                     <div className='container'>
-
                         <Header
                             buttonColorDecider={showAddButton}
                             toggleAdd={() => setshowAddButton(!showAddButton)}
-                        /> {/* Button is in <Header>, so we must pass down the State Hook function as a Prop. We also define the State Hook function here */}
+                        />
+                        {showAddButton ? <AddTask onAdd={onAdd} tasks={tasks}/> : ''}
+                    </div>
+                    }
 
-                        {showAddButton
-                            ? <AddTask onAdd={onAdd} tasks={tasks}/>
-                            : ''
-                        } {/* Event Handlers must be function or function reference, for setshowAddButton*/}
+                    {isAuth && <div className='CalendarTaskView-Container'>
+                        <Calendar
+                            tasks={tasks}
+                            isPriority={isPriority}
+                            isTime={isTime}
+                            textFilter={textFilter}
+                            datetimeFilter={datetimeFilter}
+                            viewingOptions={viewingOptions}/>
 
-                        <div>
-                            <label> togglePriority </label>
-                            <input
-                                type='radio'
-                                name='toggleOptions'
-                                value={isPriority}
-                                checked={isPriority}
-                                onChange={(e) => setisPriority(e.currentTarget.checked)}
-                            />
-
-                            <label> toggleTime </label>
-                            <input
-                                type='radio'
-                                name='toggleOptions'
-                                value={isTime}
-                                checked={isTime}
-                                onChange={(e) => setisTime(e.currentTarget.checked)}
-                            />
-
-                            <label> toggleManual </label>
-                            <input
-                                type='radio'
-                                name='toggleOptions'
-                                value={isManual}
-                                checked={isManual}
-                                onChange={(e) => setisManual(e.currentTarget.checked)}
-                            />
-                        </div>
-
-                        <div>
-                            <label> Detail Search </label>
-                            <input
-                                type='text'
-                                value={textFilter}
-                                onChange={(e) => settextFilter(e.target.value)}
-                            />
-                        </div>
-
-                        <div>
-                            <label> Date Search </label>
-                            <input
-                                type='date'
-                                value={datetimeFilter}
-                                onChange={(e) => setdatetimeFilter(e.target.value)}
-                            />
-                            <button onClick={() => setdatetimeFilter('')}> Clear</button>
-                        </div>
-
-                        <div>
-                            <label> Viewing Options </label>
-                            <select id='viewingOptions'
-                                    onChange={(e) => setviewingOptions(document.getElementById('viewingOptions').value)}
-                                    defaultValue={'2'}
-                            >
-                                <option value = '0'> Tasks </option>
-                                <option value = '1'> Events </option>
-                                <option value = '2'> Tasks & Events </option>
-                            </select>
-
-                        </div>
-
-                        <div>
-                            {
-                                tasks.length !== 0 ?
-                                    (
-                                        <Tasks
-                                            tasks={tasks}
-                                            onDelete={deleteTask}
-                                            toggleManual={isManual}
-                                            onUpdate={updateTask}
-                                            textFilter={textFilter}
-                                            datetimeFilter={datetimeFilter}
-                                            viewingOptions = {viewingOptions}
-                                        />
-                                    )
-                                    :
-                                    'No Tasks Today!'
-                            }
-                        </div>
+                        <TaskView
+                            tasks={tasks}
+                            isPriority={isPriority}
+                            setisPriority={setisPriority}
+                            isTime={isTime}
+                            setisTime={setisTime}
+                            isManual={isManual}
+                            setisManual={setisManual}
+                            textFilter={textFilter}
+                            settextFilter={settextFilter}
+                            datetimeFilter={datetimeFilter}
+                            setdatetimeFilter={setdatetimeFilter}
+                            viewingOptions={viewingOptions}
+                            setviewingOptions={setviewingOptions}
+                            deleteTask={deleteTask}
+                            updateTask={updateTask}/>
                     </div>
                     }
                 </>
             }
+
         </>
     );
 }

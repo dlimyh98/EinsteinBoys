@@ -11,7 +11,7 @@
 }
 
 .App h2 {
-    color: #f1356d;
+    color : #A0522D;
     margin-bottom: 20px;
 }
 
@@ -25,7 +25,7 @@
 }
 
 .App button {
-    background: #f1356d;
+    background : #8B4513;
     color: #fff;
     border: 0;
     padding: 10px;
@@ -47,4 +47,77 @@
     padding: 0px 20px 100px 20px;
     text-align: center;
     font-family: "Quicksand", serif;
+}
+
+.tooltipContainer {
+    position: relative;
+    display: inline-block;
+}
+
+.passwordText {
+    visibility: hidden;
+    width: 300px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+
+    /* Position the tooltip text */
+    position: absolute;
+    z-index: 1;
+    bottom: -255%;
+    left: 200%;
+    margin-left: -60px;
+
+    /* Fade in tooltip */
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltipContainer:hover .passwordText {
+    visibility: visible;
+    opacity: 1;
+}
+
+#happyFace {
+    color : green;
+    font-size: 1.5em;
+}
+
+#sadFace {
+    color : red;
+    font-size: 1.5em;
+}
+
+.registerButtonAnimationLeave {
+    animation : bounceOutUp 1s 1;
+    animation-fill-mode: forwards;
+}
+
+.registerButtonAnimationEnter {
+    animation : bounceInDown 1s 1;
+    animation-fill-mode: forwards;
+}
+
+.registerText {
+    margin-top:20px;
+    margin-bottom: 10px;
+    display : none;
+}
+
+.loginButtonAnimationLeave {
+    animation : backOutLeft 1s 1;
+    animation-fill-mode: forwards;
+}
+
+.loginButtonAnimationEnter {
+    animation : backInRight 1s 1;
+    animation-fill-mode: forwards;
+}
+
+.loginText {
+    margin-top:20px;
+    margin-bottom: 10px;
+    display : none;
 }

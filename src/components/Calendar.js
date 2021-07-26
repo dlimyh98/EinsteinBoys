@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import DayPopup from './DayPopup'
 import "./Calendar.css";
 import format from "date-fns/format"
 import startOfWeek from 'date-fns/startOfWeek'
@@ -17,6 +18,8 @@ import formatISO9075 from 'date-fns/formatISO9075'
 const Calendar = ({tasks, isPriority, isTime, textFilter, datetimeFilter, viewingOptions}) => {
 
     const[passedTasks, setPassedTasks] = useState(tasks)
+    const [isOpen, setisOpen] = useState(false)
+    const [popupText, setpopupText] = useState([])
 
     useEffect(() => {
             if (tasks && tasks.length > 0)
@@ -30,6 +33,18 @@ const Calendar = ({tasks, isPriority, isTime, textFilter, datetimeFilter, viewin
     // Default State is current Day
     const [currentDate, setCurrentDate] = useState(new Date());     // for Calendar to render proper month
     const [selectedDate, setSelectedDate] = useState(new Date());   // styling for selected Date
+
+    useEffect(() => {
+        let tmp = []
+
+        // Search through tasks Array for selectedDate
+        for (let i = 0; i < tasks.length; i++) {
+            if (isSameDay(parseISO(tasks[i].isoDay), selectedDate))
+                tmp.push(tasks[i])
+        }
+        setpopupText(tmp)
+        }, [selectedDate]
+    )
 
     // Add 1 to current Month
     const nextMonth = () => { setCurrentDate(addMonths(currentDate, 1)); };
@@ -80,15 +95,16 @@ const Calendar = ({tasks, isPriority, isTime, textFilter, datetimeFilter, viewin
         return <div className="days row">{days}</div>;
     };
 
-    const onDateClick = day => {
+    const onDateClick = (day, e) => {
         setSelectedDate(day);
+        setisOpen(true)
     }
 
     function handleviewingOptions (task) {
         switch(viewingOptions) {
             case '0' : return (task.priority !== 0)    // only view Tasks (viewingOptions === 0)
             case '1' : return (task.priority === 0)    // only view Events (viewingOptions === 1)
-            default : return true                    // view both Tasks and Events
+            default : return true                      // view both Tasks and Events
         }
     }
 
@@ -166,7 +182,7 @@ const Calendar = ({tasks, isPriority, isTime, textFilter, datetimeFilter, viewin
                         className={`column cell ${!isSameMonth(day, monthStart) ? "disabled"      // Days not in current Month are greyed out
                             : isSameDay(day, selectedDate) ? "currentDate": ""}`}                 // currentDate and selectedDate overwrite
                         key={day}
-                        onClick = {() => onDateClick(toDate(cloneDay))}   // sets currentDate hook to whatever cell is being clicked on
+                        onClick = {(e) => onDateClick(toDate(cloneDay), e)}   // sets currentDate hook to whatever cell is being clicked on
                     >
                         <span className="number"> {formattedDate} </span>
                         <span className="bg"> {formattedDate} </span>
@@ -189,13 +205,18 @@ const Calendar = ({tasks, isPriority, isTime, textFilter, datetimeFilter, viewin
         return <div className="body">{rows}</div>;
     }
 
+    const togglePopup = () => {
+        setisOpen(!isOpen)
+    }
+
     // Rendering
     return (
-        <div className="calendar">
-            <div>{header()}</div>
-            <div>{days()}</div>
-            <div>{cells(passedTasks)}</div>
-        </div>
+            <div className="calendar CalendarTaskView-Container-Calendar">
+                <div>{header()}</div>
+                <div>{days()}</div>
+                <div>{cells(passedTasks)}</div>
+                {isOpen && <DayPopup handleClose={togglePopup} popupText = {popupText} />}
+            </div>
     );
 };
 export default Calendar;

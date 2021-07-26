@@ -5,7 +5,7 @@ const Header = function( {buttonColorDecider, toggleAdd} )
 {
     return (
         <header className = 'header'>
-            <h1> CalisTracker </h1>
+            <h1 style = {{fontStyle : 'italic', fontFamily : "Chalkduster", color : '#6969ff'}}> CalisPlanner </h1>
             <Button
                 color = { buttonColorDecider ? 'red' : 'green' }
                 text = { buttonColorDecider ? 'Done Adding' : 'Start Adding' }

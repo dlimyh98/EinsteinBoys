@@ -71,8 +71,12 @@ app.post("/login", (req,res,next) => {
 })
 
 // Register Route (saves first time users into mongoDB, with encryption)
+let passwordCheck = new RegExp('((?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{4,}))|((?=.*[a-z])(?=.*[A-Z])(?=.*[^A-Za-z0-9])(?=.{4,}))')
 app.post("/register", (req, res, next) => {
-    User.findOne({ username: req.body.username }, async (err, doc) => {
+    if (req.body.username === '') return res.send("Invalid Username")
+    if (!passwordCheck.test(req.body.password)) return res.send("Invalid Password")
+
+        User.findOne({ username: req.body.username }, async (err, doc) => {
         if (err) throw err;
         if (doc) res.send("Username Already Taken");
         if (!doc) {
