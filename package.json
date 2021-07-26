@@ -35,7 +35,8 @@
     "frontend": "npm start",
     "api": "cd backend && node server.js",
     "dev": "concurrently --kill-others-on-fail \"npm run api\" \"npm run frontend\"",
-    "heroku-postbuild": "cd .. && npm install && npm run build",
+    "heroku-postbuild": "npm run build",
+    "build" : "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
