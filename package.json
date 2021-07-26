@@ -1,7 +1,6 @@
 {
   "name": "tasktracker",
-  "homepage": "https://einsteinboys.herokuapp.com",
-  "proxy" : "https://einsteinboys.herokuapp.com/api",
+  "homepage": ".",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -32,10 +31,9 @@
     "web-vitals": "^1.1.2"
   },
   "scripts": {
-    "start": "cd backend && node server.js && cd ..",
-    "heroku-postbuild": "npm install && npm run build",
-    "build" : "react-scripts build",
-   "test": "react-scripts test",
+    "start": "react-scripts start & cd backend && node server.js",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

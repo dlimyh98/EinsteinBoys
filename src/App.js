@@ -9,6 +9,7 @@ import Calendar from './components/Calendar'
 import moment from 'moment'
 import Authentication from './components/Authentication'
 
+
 // App (Global) State
 // Not best practice, will use Redux to keep track of JS States in future
 // Components can be Functions (with hooks) or Classes
@@ -46,7 +47,7 @@ function App() {
             method : "POST",
             data : TaskAdded,
             withCredentials : true,
-            url: "https://einsteinboys.herokuapp.com/api/tasks",
+            url: "http://localhost:4000/tasks",
         }).then((res) => {
             fetchTasks()
         })
@@ -57,7 +58,7 @@ function App() {
             method : "DELETE",
             data : TaskDelete,
             withCredentials : true,
-            url : "https://einsteinboys.herokuapp.com/api/tasks",
+            url : "http://localhost:4000/tasks",
         }).then((res) => {
             //console.log(res.data.task)
             fetchTasks()
@@ -69,7 +70,7 @@ function App() {
             method : "PUT",
             data : newTaskOrdering,
             withCredentials : true,
-            url : "https://einsteinboys.herokuapp.com/api/tasks",
+            url : "http://localhost:4000/tasks",
         }).then((res) => {
             fetchTasks()
         })
