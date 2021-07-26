@@ -25,7 +25,7 @@ mongoose.connect("mongodb+srv://Damien:EinsteinBoys@einsteinboys.m7bvh.mongodb.n
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(cors({                       // CORS allows a server to indicate any other origins than it's own, from which it will allow loading of resources
-    origin : "http://localhost:3000",   // Whatever the React app is using
+    origin : "https://einsteinboys.herokuapp.com",   // Whatever the React app is using
     credentials : true
 }))
 app.use(session({     // Start a session (place to store data that you want to access, between requests)
